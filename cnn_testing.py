@@ -66,7 +66,7 @@ def test_cnn():
     
     print(f'Mean time {np.mean(times)}')
 
-    print(f'Total accuracy.: {(total_correct_predictions / total_images) * 100}%')
+    print(f'Total accuracy: {(total_correct_predictions / total_images) * 100}%')
     print(f'Dog accuracy: {(correct_dogs / total_dogs) * 100}%')
     print(f'Human accuracy: {(correct_humans / total_humans) * 100}%')
     

@@ -133,8 +133,11 @@ def getFold(n, humans_folder_path, dogs_folder_path, target_train_path, target_t
         print('Train path does not exists. Creating folder...')
         os.mkdir(target_train_path)
     
-    for image in selected_dog_images_train:
+    for image in selected_human_images_train:
+        shutil.copy(image, target_train_path)
+        
+    for image in selected_human_images_train:
         shutil.copy(image, target_train_path)
 
     
-getFold(100, 'dataset/humans_full', 'dataset/dogs_full', '', '', 0.75, 0.25)
+getFold(100, 'dataset/humans_full', 'dataset/dogs_full', 'prueba', '', 0.75, 0.25)
