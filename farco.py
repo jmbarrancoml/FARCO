@@ -29,7 +29,7 @@ def farco():
         k = cv2.waitKey(1)
         if k % 256 == 27:
             # ESC pressed
-            print("ESC Pressed. Closing window")
+            print("ESC Pressed. Closing window.")
             break
 
     camera.release()
