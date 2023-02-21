@@ -9,8 +9,8 @@ import numpy as np
 
 def train_cnn():
     #Imagenes
-    train_path = '/content/drive/MyDrive/FARCO/dataset/train'
-    val_path = '/content/drive/MyDrive/FARCO/dataset/validation'
+    train_path = 'dataset/train'
+    val_path = 'dataset/validation'
 
     #Parametros preprocesamiento
     altura_img, anchura_img = 32, 32
@@ -70,8 +70,8 @@ def train_cnn():
     
     cnn.fit(train_img, steps_per_epoch = iteraciones, epochs = epocas, validation_data = val_img, validation_steps = it_validacion)
     
-    cnn.save('/content/drive/MyDrive/FARCO/classifiers/cnn_fvsd_9008_model.h5')
-    cnn.save_weights('/content/drive/MyDrive/FARCO/classifiers/cnn_fvsd_9008_weights.h5')
+    cnn.save('classifiers/cnn_fvsd_1_model.h5')
+    cnn.save_weights('classifiers/cnn_fvsd_1_weights.h5')
     
     
 
