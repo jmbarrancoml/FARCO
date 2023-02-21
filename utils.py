@@ -54,9 +54,16 @@ def predict(frame: cv2.Mat, model, threshold: float = 0.5):
     
     return predicted_class, probability
 
-def getFold(n, humans_folder_path, dogs_folder_path, target_train_path, target_test_path, train_size, test_size, rnd = None):
+def getFold(n, humans_folder_path, dogs_folder_path, target_train_path, target_test_path, train_size, test_size, clean_before: bool = False, rnd = None):
     if rnd is None:
         rnd = random.Random()
+    if clean_before:
+        if os.path.exists(target_train_path):
+            print(f'[CLEAN BEFORE] Deleting train folder: {target_train_path}...')
+            shutil.rmtree(target_train_path)
+        if os.path.exists(target_test_path):
+            print(f'[CLEAN BEFORE] Deleting test folder: {target_test_path}...')
+            shutil.rmtree(target_test_path)
         
     num_train = math.floor(math.floor(n/2) * train_size)
     num_test = math.ceil(math.floor(n/2) * test_size)
@@ -128,16 +135,46 @@ def getFold(n, humans_folder_path, dogs_folder_path, target_train_path, target_t
     print(f'\t - Num of dogs for test: {len(selected_dog_images_test)}')
     
 
+    # #### TRAIN #### #
     # Copiar un archivo de origen a destino
     if not os.path.exists(target_train_path):
         print('Train path does not exists. Creating folder...')
         os.mkdir(target_train_path)
+    human_temp_path = target_train_path + '/0humans'
+    dog_temp_path = target_train_path + '/1dogs'
+    if not os.path.exists(human_temp_path):
+        print('Train human path does not exists. Creating folder...')
+        os.mkdir(human_temp_path)
+    if not os.path.exists(dog_temp_path):
+        print('Train dog path does not exists. Creating folder...')
+        os.mkdir(dog_temp_path)
     
     for image in selected_human_images_train:
-        shutil.copy(image, target_train_path)
+        shutil.copy(image, human_temp_path)
         
-    for image in selected_human_images_train:
-        shutil.copy(image, target_train_path)
+    for image in selected_dog_images_train:
+        shutil.copy(image, dog_temp_path)
+
+    # #### TEST #### #
+    # Copiar un archivo de origen a destino
+    if not os.path.exists(target_test_path):
+        print('Test path does not exists. Creating folder...')
+        os.mkdir(target_test_path)
+    human_temp_path = target_test_path + '/0humans'
+    dog_temp_path = target_test_path + '/1dogs'
+    if not os.path.exists(human_temp_path):
+        print('Test human path does not exists. Creating folder...')
+        os.mkdir(human_temp_path)
+    if not os.path.exists(dog_temp_path):
+        print('Test dog path does not exists. Creating folder...')
+        os.mkdir(dog_temp_path)
+    
+    for image in selected_human_images_test:
+        shutil.copy(image, human_temp_path)
+        
+    for image in selected_dog_images_test:
+        shutil.copy(image, dog_temp_path)
+
 
     
-getFold(100, 'dataset/humans_full', 'dataset/dogs_full', 'prueba', '', 0.75, 0.25)
+getFold(40, 'dataset/humans_full', 'dataset/dogs_full', 'dataset/train', 'dataset/validation', 0.8, 0.2, clean_before=True)
